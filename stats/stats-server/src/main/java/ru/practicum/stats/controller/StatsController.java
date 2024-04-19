@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import ru.practicum.stats.dto.EndpointHitDto;
 import ru.practicum.stats.dto.ViewStatsDto;
+import ru.practicum.stats.exception.InvalidArgumentsException;
 import ru.practicum.stats.service.StatsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
+@Validated
 @RestController
 public class StatsController {
     private final StatsService service;
@@ -42,18 +44,16 @@ public class StatsController {
             @RequestParam(name = "uris", required = false) List<String> uriList,
             @RequestParam(name = "unique", defaultValue = "false") Boolean isUnique) {
 
-        if (!checkData(start, end)) {
-            throw new IllegalArgumentException("Неверно указан временной диапазон");
-        }
+        checkData(start, end);
+
         log.info("Получен запрос на статистику посещений в период с {} до {} по сервисам {} и уникальности {}",
                 start, end, uriList, isUnique);
         return service.getStats(start, end, uriList, isUnique);
     }
 
-    private boolean checkData(LocalDateTime start, LocalDateTime end) {
-        if (start == null || end == null) {
-            return false;
+    private void checkData(LocalDateTime start, LocalDateTime end) {
+        if (start == null || end == null || end.isBefore(start)) {
+            throw new InvalidArgumentsException("Неверно указан временной диапазон");
         }
-        return start.isBefore(end);
     }
 }

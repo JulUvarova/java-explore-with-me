@@ -2,6 +2,7 @@ package ru.practicum.stats.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import ru.practicum.stats.dto.annotation.CheckIpAddress;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -21,11 +22,10 @@ public class EndpointHitDto {
     @Size(max = 255, message = "Превышено число символов")
     private String uri;
 
-    @NotBlank(message = "IP не может быть пустым")
-    @Size(max = 255, message = "Превышено число символов")
+    @CheckIpAddress
     private String ip;
 
     @NotNull(message = "Дата и время не может быть пустым")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timestamp;
 }
