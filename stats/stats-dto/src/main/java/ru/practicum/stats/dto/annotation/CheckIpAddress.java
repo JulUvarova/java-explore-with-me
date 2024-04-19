@@ -1,6 +1,5 @@
 package ru.practicum.stats.dto.annotation;
 
-import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
