@@ -15,8 +15,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class StatsStorageTest {
+    private final StatsStorage storage;
+
     @Autowired
-    StatsStorage storage;
+    public StatsStorageTest(StatsStorage storage) {
+        this.storage = storage;
+    }
 
     @BeforeEach
     void init() {

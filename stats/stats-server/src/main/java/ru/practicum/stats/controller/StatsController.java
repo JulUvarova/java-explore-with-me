@@ -30,8 +30,8 @@ public class StatsController {
      */
     @PostMapping("/hit")
     public void addHit(@Validated @RequestBody EndpointHitDto endpointHitRequest) {
-        service.addHit(endpointHitRequest);
         log.info("Получен запрос на сохранение информации: {}", endpointHitRequest);
+        service.addHit(endpointHitRequest);
     }
 
     /**

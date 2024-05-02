@@ -9,7 +9,7 @@ public class IpValidator implements ConstraintValidator<CheckIpAddress, String> 
     private static final String IPV4_PATTERN =
             "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$";
 
-    private static final Pattern pattern = Pattern.compile(IPV4_PATTERN);
+    private static final Pattern IP_PATTERN = Pattern.compile(IPV4_PATTERN);
 
     @Override
     public void initialize(CheckIpAddress constraintAnnotation) {
@@ -17,7 +17,7 @@ public class IpValidator implements ConstraintValidator<CheckIpAddress, String> 
 
     @Override
     public boolean isValid(final String ip, ConstraintValidatorContext cxt) {
-        Matcher matcher = pattern.matcher(ip);
+        Matcher matcher = IP_PATTERN.matcher(ip);
         return matcher.matches();
     }
 }

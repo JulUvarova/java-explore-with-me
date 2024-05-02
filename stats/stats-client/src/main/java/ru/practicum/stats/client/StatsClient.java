@@ -6,15 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.stats.dto.EndpointHitDto;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
-@Service
 @Slf4j
 public class StatsClient extends BaseClient {
 
@@ -33,7 +29,7 @@ public class StatsClient extends BaseClient {
         return post("/hit", dto);
     }
 
-    public ResponseEntity<Object> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
+    public ResponseEntity<Object> getStats(String start, String end, String[] uris, boolean unique) {
         Map<String, Object> param = Map.of(
                 "start", start,
                 "end", end,
