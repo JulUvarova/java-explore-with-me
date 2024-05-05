@@ -13,11 +13,11 @@ import java.util.Set;
 @NoArgsConstructor
 @SuperBuilder
 public class NewCompilationDto {
-    Set<Long> events = new HashSet<>(); // может не содержать событий
+    private Set<Long> events = new HashSet<>(); // может не содержать событий
 
-    Boolean pinned = false;
+    private Boolean pinned = false;
 
     @NotBlank
     @Size(min = 1, max = 50)
-    String title;
+    private String title;
 }

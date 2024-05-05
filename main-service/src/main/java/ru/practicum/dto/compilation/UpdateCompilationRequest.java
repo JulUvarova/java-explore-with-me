@@ -11,10 +11,10 @@ import java.util.Set;
 @NoArgsConstructor
 @SuperBuilder
 public class UpdateCompilationRequest {
-    Set<Long> events = null;
+    private Set<Long> events = null;
 
-    Boolean pinned = null;
+    private Boolean pinned = null;
 
     @Size(min = 1, max = 50)
-    String title;
+    private String title;
 }

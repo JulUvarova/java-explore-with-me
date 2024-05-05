@@ -66,7 +66,7 @@ public class Event {
     @Embedded
     @AttributeOverride(name = "lat", column = @Column(name = "location_lat"))
     @AttributeOverride(name = "lon", column = @Column(name = "location_lon"))
-    Location location;
+    private Location location;
 
     @Formula("(select count(r.id) " +
             "from events as e " +

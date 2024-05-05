@@ -21,6 +21,7 @@ import ru.practicum.enums.UpdateStateAction;
 import ru.practicum.dto.request.ParticipationRequestDto;
 import ru.practicum.exception.ConflictException;
 import ru.practicum.exception.NotFoundException;
+import ru.practicum.exception.ValidationException;
 import ru.practicum.storage.EventStorage;
 import ru.practicum.storage.UserStorage;
 import ru.practicum.utility.Constant;
@@ -50,7 +51,11 @@ public class EventService {
     private final StatsClient statsClient;
 
     @Transactional(readOnly = true)
-    public List<EventFullDto> getEventsByParam(List<Long> users, List<String> states, List<Long> categories, LocalDateTime rangeStart, LocalDateTime rangeEnd, int from, int size) {
+    public List<EventFullDto> getEventsByParam(List<Long> users, List<String> states, List<Long> categories,
+                                               LocalDateTime rangeStart, LocalDateTime rangeEnd, int from, int size) {
+        if (rangeEnd != null && rangeStart != null && rangeEnd.isBefore(rangeStart))
+            throw new ValidationException("Окончание события должны быть позже его начала");
+
         Specification<Event> specification = Specification
                 .where(EventSpec.initiatorsIn(users))
                 .and(EventSpec.categoriesIn(categories))
@@ -303,7 +308,7 @@ public class EventService {
         String end = LocalDateTime.now().plusMinutes(1).format(format);
         ObjectMapper mapper = new ObjectMapper();
         ResponseEntity<Object> response = statsClient.getStats(start,
-               end, uris, true);
+                end, uris, true);
         List<ViewStatsDto> viewStatsList = mapper.convertValue(response.getBody(), new TypeReference<>() {
         });
 

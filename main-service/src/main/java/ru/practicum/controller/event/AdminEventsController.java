@@ -6,7 +6,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.event.EventFullDto;
 import ru.practicum.dto.event.UpdateEventAdminRequest;
-import ru.practicum.exception.ValidationException;
 import ru.practicum.service.EventService;
 import ru.practicum.utility.Constant;
 
@@ -37,9 +36,6 @@ public class AdminEventsController {
             @RequestParam(required = false) @DateTimeFormat(pattern = Constant.DATA_FORMAT) LocalDateTime rangeEnd,
             @RequestParam(defaultValue = "0") @PositiveOrZero int from,
             @RequestParam(defaultValue = "10") @Positive int size) {
-
-        if (rangeEnd != null && rangeStart != null && rangeEnd.isBefore(rangeStart))
-            throw new ValidationException("Окончание события должны быть позже его начала");
 
         log.info("Получение списка событий от пользователей: {}, статусом: {}, категорий: {}, начало: {}, конец: {}",
                 users, states, categories, rangeStart, rangeEnd);

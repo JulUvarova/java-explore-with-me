@@ -24,11 +24,11 @@ public class Compilation {
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     @ToString.Exclude
     @Column(name = "events")
-    List<Event> events;
+    private List<Event> events;
 
     @Column(name = "pinned")
-    Boolean pinned;
+    private Boolean pinned;
 
     @Column(name = "title")
-    String title;
+    private String title;
 }

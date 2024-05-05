@@ -15,9 +15,9 @@ public class NewUserRequest {
     @NotBlank
     @Size(min = 6, max = 254)
     @Email(message = "Почта должна быть оформлена по правилам")
-    String email;
+    private String email;
 
     @NotBlank
     @Size(min = 2, max = 250)
-    String name;
+    private String name;
 }
