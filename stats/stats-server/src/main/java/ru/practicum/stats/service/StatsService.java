@@ -27,7 +27,7 @@ public class StatsService {
     @Transactional
     public void addHit(EndpointHitDto endpointHitRequest) {
         EndpointHit savedEntity = storage.save(StatsMapper.toEndpointHitEntity(endpointHitRequest));
-        log.info("Просмотр сохранен в базе с id {}", savedEntity.getId());
+        log.info("Просмотр сохранен: {}", savedEntity.getId());
     }
 
     @Transactional(readOnly = true)

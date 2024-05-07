@@ -1,6 +1,7 @@
 package ru.practicum.stats.controller;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import ru.practicum.stats.dto.EndpointHitDto;
 import ru.practicum.stats.dto.ViewStatsDto;
@@ -29,9 +30,10 @@ public class StatsController {
      * Название сервиса, uri и ip пользователя указаны в теле запроса.
      */
     @PostMapping("/hit")
+    @ResponseStatus(HttpStatus.CREATED)
     public void addHit(@Validated @RequestBody EndpointHitDto endpointHitRequest) {
-        service.addHit(endpointHitRequest);
         log.info("Получен запрос на сохранение информации: {}", endpointHitRequest);
+        service.addHit(endpointHitRequest);
     }
 
     /**
@@ -39,8 +41,8 @@ public class StatsController {
      */
     @GetMapping("/stats")
     public List<ViewStatsDto> getStats(
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
             @RequestParam(name = "uris", required = false) List<String> uriList,
             @RequestParam(name = "unique", defaultValue = "false") Boolean isUnique) {
 
