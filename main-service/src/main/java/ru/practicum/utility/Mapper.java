@@ -1,6 +1,8 @@
 package ru.practicum.utility;
 
 import lombok.experimental.UtilityClass;
+import ru.practicum.dto.comment.CommentDtoResponse;
+import ru.practicum.dto.comment.NewCommentDto;
 import ru.practicum.dto.compilation.CompilationsDto;
 import ru.practicum.dto.compilation.NewCompilationDto;
 import ru.practicum.dto.event.EventShortDto;
@@ -91,10 +93,7 @@ public class Mapper {
                 .eventDate(event.getEventDate())
                 .category(Mapper.toCatDto(event.getCategory()))
                 .confirmedRequests(event.getConfirmedRequests())
-                .initiator(UserShortDto.builder()
-                        .id(event.getInitiator().getId())
-                        .name(event.getInitiator().getName())
-                        .build())
+                .initiator(Mapper.toUserShortDto(event.getInitiator()))
                 .views(view)
                 .build();
     }
@@ -109,10 +108,7 @@ public class Mapper {
                 .eventDate(event.getEventDate())
                 .category(Mapper.toCatDto(event.getCategory()))
                 .confirmedRequests(event.getConfirmedRequests())
-                .initiator(UserShortDto.builder()
-                        .id(event.getInitiator().getId())
-                        .name(event.getInitiator().getName())
-                        .build())
+                .initiator(Mapper.toUserShortDto(event.getInitiator()))
                 .state(event.getState())
                 .requestModeration(event.getRequestModeration())
                 .views(view)
@@ -123,6 +119,13 @@ public class Mapper {
                 .participantLimit(event.getParticipantLimit())
                 .createdOn(event.getCreated())
                 .publishedOn(event.getPublished())
+                .build();
+    }
+
+    public UserShortDto toUserShortDto(User user) {
+        return UserShortDto.builder()
+                .id(user.getId())
+                .name(user.getName())
                 .build();
     }
 
@@ -150,7 +153,7 @@ public class Mapper {
                 .build();
     }
 
-    public static EventRequestStatusUpdateResult toRequestResult(List<Request> requests) {
+    public EventRequestStatusUpdateResult toRequestResult(List<Request> requests) {
         List<ParticipationRequestDto> confirmedRequests = new ArrayList<>();
         List<ParticipationRequestDto> rejectedRequests = new ArrayList<>();
         for (Request req : requests) {
@@ -160,6 +163,24 @@ public class Mapper {
         return EventRequestStatusUpdateResult.builder()
                 .confirmedRequests(confirmedRequests)
                 .rejectedRequests(rejectedRequests)
+                .build();
+    }
+
+    public Comment toComment(NewCommentDto creatingDto, long eventId, User user) {
+        return Comment.builder()
+                .text(creatingDto.getText())
+                .author(user)
+                .eventId(eventId)
+                .build();
+    }
+
+    public CommentDtoResponse toCommentResponse(Comment createdComment) {
+        return CommentDtoResponse.builder()
+                .id(createdComment.getId())
+                .text(createdComment.getText())
+                .eventId(createdComment.getEventId())
+                .author(Mapper.toUserShortDto(createdComment.getAuthor()))
+                .created(createdComment.getCreated())
                 .build();
     }
 }
