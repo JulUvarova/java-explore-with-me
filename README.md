@@ -13,14 +13,13 @@
 - [Особенности](#-особенности)
 
 ## ⚙️ Технологии
-- Java 17
-- Spring Boot 3
-- PostgreSQL 15
+- Java 
+- Spring Boot 
+- PostgreSQL 
 - Docker
 - Maven
 - Hibernate
 - Spring Data JPA
-- Spring Actuator
 
 ## 🎯 Функции
 ### Основной сервис
